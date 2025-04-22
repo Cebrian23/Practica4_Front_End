@@ -19,6 +19,9 @@ export async function handleResponse<T>(response: Response): Promise<T> {
   return await response.json() as T;
 }
 
+//Comprobamos si la petición ha sido un exito,
+//añadimos un campo en el que almacenamos los datos recibidos
+//y devolvemos el array de los datos recibidos o un null si lo recibido no es un array
 export async function fetchUsers(): Promise<User[]> {
   const response = await fetch(`${API_URL}/api/users/`);
   const data = await handleResponse<{ success: boolean; data: User[] }>(
@@ -67,6 +70,9 @@ export async function deleteUser(id: string): Promise<void> {
   await handleResponse<void>(response);
 }
 
+//Comprobamos si la petición ha sido un exito,
+//añadimos un campo en el que almacenamos los datos recibidos
+//y devolvemos el array de los datos recibidos o un null si lo recibido no es un array
 export async function fetchTasks(): Promise<Task[]> {
   const response = await fetch(`${API_URL}/api/tasks/`);
   const data = await handleResponse<{ success: boolean; data: Task[] }>(
