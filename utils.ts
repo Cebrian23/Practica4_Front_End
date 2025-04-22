@@ -21,7 +21,11 @@ export async function handleResponse<T>(response: Response): Promise<T> {
 
 export async function fetchUsers(): Promise<User[]> {
   const response = await fetch(`${API_URL}/api/users/`);
-  return handleResponse<User[]>(response);
+  const data = await handleResponse<{ success: boolean; data: User[] }>(
+    response,
+  );
+
+  return Array.isArray(data.data) ? data.data : [];
 }
 
 export async function fetchUser(id: string): Promise<User> {
@@ -40,12 +44,13 @@ export async function createUser(userData: CreateUserRequest): Promise<User> {
   return handleResponse<User>(response);
 }
 
+//Se cambia el método "DELETE" a "PUT"
 export async function updateUser(
   id: string,
   userData: UpdateUserRequest,
 ): Promise<User> {
   const response = await fetch(`${API_URL}/api/users/${id}`, {
-    method: "DELETE",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -54,16 +59,21 @@ export async function updateUser(
   return handleResponse<User>(response);
 }
 
+//Se cambia el método "PUT" a DELETE
 export async function deleteUser(id: string): Promise<void> {
   const response = await fetch(`${API_URL}/api/users/${id}`, {
-    method: "PUT",
+    method: "DELETE",
   });
   await handleResponse<void>(response);
 }
 
 export async function fetchTasks(): Promise<Task[]> {
   const response = await fetch(`${API_URL}/api/tasks/`);
-  return handleResponse<Task[]>(response);
+  const data = await handleResponse<{ success: boolean; data: Task[] }>(
+    response,
+  );
+    
+  return Array.isArray(data.data) ? data.data : [];
 }
 
 export async function fetchTask(id: string): Promise<Task> {
@@ -82,12 +92,13 @@ export async function createTask(taskData: CreateTaskRequest): Promise<Task> {
   return handleResponse<Task>(response);
 }
 
+//Se cambia el método de "DELETE" a "PUT"
 export async function updateTask(
   id: string,
   taskData: UpdateTaskRequest,
 ): Promise<Task> {
   const response = await fetch(`${API_URL}/api/tasks/${id}`, {
-    method: "DELETE",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
